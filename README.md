@@ -12,5 +12,3 @@
   2. 以 CHIP.v 包裝 top_module（目前尚未完成）。
   3. 人工檢查 create_phy_cell.tcl 與 io.tdf 的正確性（目前由 AI 產出為草稿）。
 
-  push測試
-
