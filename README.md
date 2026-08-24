@@ -1,11 +1,14 @@
 # I-O-pad
 數位 IC Pad 規劃與腳本撰寫 SOP
 
-工作日記:
-2026/8/24 
-  跑過一次計算io pad數量的流程與.tcl、.tdf之撰寫，對應[皓宇的筆記-io pad的選擇]章節，
-  將過程請 ai 包裝成 io_pad_skill.md 已方便日後使用
-  目前問題:
-    1./cad/CBDK/CBDK_TN40G_Arm/CBDK_TSMC40_io_TSMC_v2.0/CIC/doc 路徑內的 Databook (`DB_TPZN...`) 檔案大多無法開啟(不確定是否開啟方式錯誤),腳本中使用到的`PVDD1DGZ` 等名稱，        日後務必開啟對應製程的 Databook (`DB_TPZN...`) 進行二次確認，不同製程命名可能不同。
-    2.top_module 還沒有用 CHIP.v 重新包裝，明天再說
-    3.create_phy_cell.tcl、io.tdf 是由ai排的，正確性還需人工確認
+# 工作日記
+
+## 2026-08-24
+- 要點：跑過一次計算 IO pad 數量流程並整理相關腳本（create_phy_cell.tcl / io.tdf）。
+- 成果：把流程與筆記包裝成 io_pad_skill.md 以方便日後重複使用。
+- 阻礙：Databook (`DB_TPZN...`) 檔案在 CAD 路徑下無法開啟或存取（路徑：/cad/CBDK/.../CIC/doc），需確認開檔方式或取得正確檔案。
+- 待辦：
+  1. 確認 Databook 中 PVDD/PVSS 等 cell 實際名稱，並更新 create_phy_cell.tcl。
+  2. 以 CHIP.v 包裝 top_module（目前尚未完成）。
+  3. 人工檢查 create_phy_cell.tcl 與 io.tdf 的正確性（目前由 AI 產出為草稿）。
+- 時間：約 3.5 小時
