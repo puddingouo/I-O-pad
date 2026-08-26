@@ -13,10 +13,14 @@
   3. 人工檢查 create_phy_cell.tcl 與 io.tdf 的正確性（目前由 AI 產出為草稿）。
 
 ## 2026-08-26
-- 要點：
+- 要點：整理並完成 CHIP.v、IO file（chip.io）、以及 IO file generator 的 skill/流程文件，確認目前 pad 寫法與 .io 格式具備可延續的基礎。
 - 成果：
-- 阻礙：
+  - 完成 top wrapper 檔案 CHIP.v，已準備 input/output pad 實例化與核心連接。
+  - 完成 IO file 範例 chip.io，包含 N/E/S/W 四邊 pad 排列與 corner/power 配置。
+  - 補齊 IO File Generator skill 文件，整理規範、必要輸入、格式與設計原則。
+  - 建立 pad planning SOP 的可重用文件，方便後續在新設計中套用。
+- 阻礙：目前仍需確認 Databook 檔案的開啟方式，檢查 Databook 中實際 pad cell 名稱與 Innovus 產生 .io 的細節是否完全符合流片庫定義；另外檢查 pad 配置與命名是否與實際 netlist 一致。
 - 待辦：
-  1. 
-  2. 
-  3. 
+  1. 開啟 Innovus，確認環境與 library 設定是否正確。
+  2. 以 chip.io / CHIP.v 進行實際 pad placement 檢查。
+  3. 若 Innovus 讀入時有錯誤，回到 Databook 與 pad naming 進行修正。
