@@ -40,14 +40,21 @@
 
 ---
 
-## 階段二：修改 Verilog 頂層模組 (Top Module)
+## 階段二：撰寫 CHIP.v (Top Wrapper / Pad Ring)
+CHIP.v 是一個純結構化 (Structural) 的模組，它的唯一功能是將「核心電路 (Core)」與「外部訊號 Pad」連接起來，內部不應包含任何邏輯運算。
 
-> ⚠️ **極度重要注意事項**：
-> 佈局軟體不會自動幫您把內部電路接上外部腳位。所有的**訊號腳位 (Signal Pad)** 必須在 Verilog 程式碼中手動實例化。
+📝 撰寫與除錯 4 大鐵則
+1. 嚴禁寫入純實體 Pad：
+Core Power Pad、IO Power Pad、Corner Pad 以及 POC Pad 絕對不能寫進 CHIP.v 裡。 這些 Pad 沒有邏輯接腳，寫入會導致合成工具 (Design Compiler) 報錯或將其優化刪除。它們將在階段三交由腳本產生。
 
-* **作法**：在您的頂層模組（如 `CHIP.v`）中，將所有 Input Pad 與 Output Pad 例置 (Instantiate) 出來，並正確連接到核心模組（如 `booth_radix4`）的對應接腳。
-* **注意**：Core Power、IO Power、Corner、POC 等「純實體 Pad」**不需要**寫入 Verilog 中，這些交由下一步的腳本產生。
+2. 內外訊號線必須隔離：
+必須宣告內部線路 (wire)。外部接腳 (如 a) 先接上 Input Pad 的外部端 (如 .PAD())，轉換後從內部端 (如 .C()) 輸出內部訊號 (core_a)，最後再將 core_a 接進您的核心模組。
 
+3. 實例名稱 (Instance Name) 必須精準對應：
+為了確保 P&R 工具能順利擺放，CHIP.v 中的 Pad 實例化名稱 (如 ipad_a_0)，必須與階段四 io.tdf 腳本中的 -pad_name 完全一模一樣。建議將陣列變數 (如 a[15:0]) 逐一展開實例化以避免工具對應錯誤。
+
+4. 確保程式碼風格與結構分離：
+頂層模組只負責「接線」(Instantiation)。核心模組內若包含循序邏輯 (Sequential Logic)，請務必遵守良好的 Verilog 寫作風格，將每個變數單獨用一個 always block 包起來，確保狀態機與控制訊號乾淨獨立。
 ---
 
 ## 階段三：撰寫 `create_phy_cell.tcl`
